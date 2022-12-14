@@ -1,0 +1,5 @@
+-- 用户表:ums_user
+-- 角色表:ums_role
+-- 权限表:ums_permission
+-- 用户_角色表:ums_user_role
+-- 角色_权限表:ums_role_permission
