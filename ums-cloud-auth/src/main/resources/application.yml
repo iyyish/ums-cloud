@@ -1,0 +1,13 @@
+server:
+  port: 2580
+spring:
+  application:
+    name: ums-cloud-auth
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://localhost:3306/ums-cloud?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+  main:
+    allow-bean-definition-overriding: true
