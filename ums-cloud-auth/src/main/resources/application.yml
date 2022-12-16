@@ -15,3 +15,12 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  type-aliases-package: com.iyyish.ums.cloud.auth.model.entity
+  
+# 配置log
+logging:
+  level:
+    com.iyyish.ums.cloud.auth.mapper: debug

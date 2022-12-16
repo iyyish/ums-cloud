@@ -27,7 +27,7 @@ public class RequestAccessDeniedHandler implements ServerAccessDeniedHandler {
     public Mono<Void> handle(ServerWebExchange serverWebExchange, AccessDeniedException e) {
         log.error("权限不足, {}", e.getMessage(),e);
         ServerHttpResponse response = serverWebExchange.getResponse();
-        response.getHeaders().add("content-type", "application/json;charset=utf-8");
+        response.getHeaders().add("Content-Type", "application/json;charset=utf-8");
         response.setStatusCode(HttpStatus.OK);
         ApiResponse<?> data = ApiResponse.build(ResponseCode.AuthStatus.ACCESS_DENIED);
         String json = JSON.toJSONString(data, SerializerFeature.WriteNullStringAsEmpty);

@@ -17,3 +17,12 @@ spring:
           uri: lb://ums-cloud-auth
           predicates:
             - Path=/oauth/**
+  redis:
+    host: 127.0.0.1
+    port: 6379
+# 认证白名单
+oauth2:
+  whitelist:
+    urls:
+      - /oauth/token
+      - /oauth/logout

@@ -27,7 +27,7 @@ public class RequestAuthenticationEntryPoint implements ServerAuthenticationEntr
     public Mono<Void> commence(ServerWebExchange serverWebExchange, AuthenticationException e) {
         log.error("认证未通过, {}", e.getMessage(),e);
         ServerHttpResponse response = serverWebExchange.getResponse();
-        response.getHeaders().add("content-type", "application/json;charset=utf-8");
+        response.getHeaders().add("Content-Type", "application/json;charset=utf-8");
         response.setStatusCode(HttpStatus.OK);
         ApiResponse<?> data = ApiResponse.build(ResponseCode.AuthStatus.INVALID_TOKEN);
         String json = JSON.toJSONString(data, SerializerFeature.WriteNullStringAsEmpty);

@@ -38,7 +38,7 @@ public interface ResponseCode {
         BAD_CLIENT_CREDENTIALS("4001", "客户端信息错误"),
         BAD_CREDENTIALS("4002", "用户名或密码错误"),
         UNSUPPORTED_GRANT_TYPE("4003", "授权类型不支持"),
-        INVALID_TOKEN("4004", "令牌失效"),
+        INVALID_TOKEN("4004", "未认证或令牌失效"),
         EXPIRED_TOKEN("4005", "令牌过期"),
         ACCESS_DENIED("4006", "权限不足");
         private final String code;

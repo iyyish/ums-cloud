@@ -26,7 +26,7 @@ public class AuthAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
         log.error("客户端信息认证失败,{}", e.getMessage());
         ApiResponse<?> apiResponse = ApiResponse.build(ResponseCode.AuthStatus.BAD_CLIENT_CREDENTIALS);
-        httpServletResponse.setHeader("content-type", "application/json;charset=utf-8");
+        httpServletResponse.setHeader("Content-Type", "application/json;charset=utf-8");
         PrintWriter writer = httpServletResponse.getWriter();
         writer.write(JSON.toJSONString(apiResponse, SerializerFeature.WriteMapNullValue));
         writer.flush();

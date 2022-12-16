@@ -40,11 +40,11 @@ public class JwtReactiveAuthorizationManager implements ReactiveAuthorizationMan
             }
         });
         return authentication
-                // 判断是否认证成功
+                //判断是否认证成功
                 .filter(Authentication::isAuthenticated)
-                // 获取认证后的全部权限
+                //获取认证后的全部权限
                 .flatMapIterable(Authentication::getAuthorities).map(GrantedAuthority::getAuthority).any(authority -> {
-                    // 管理员有所有权限
+                    //管理员有所有权限
                     if (Constants.AUTH_ROOT_ROLE_CODE.equals(authority)) {
                         return true;
                     }

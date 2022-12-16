@@ -10,7 +10,6 @@ import org.springframework.security.oauth2.common.exceptions.InvalidTokenExcepti
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.server.resource.BearerTokenAuthenticationToken;
-import org.springframework.security.oauth2.server.resource.authentication.BearerTokenAuthentication;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
@@ -38,7 +37,7 @@ public class JwtReactiveAuthenticationManager implements ReactiveAuthenticationM
                 //创建元素序列
                 .justOrEmpty(a)
                 //过滤
-                .filter(authentication -> authentication instanceof BearerTokenAuthentication)
+                .filter(authentication -> authentication instanceof BearerTokenAuthenticationToken)
                 //类型转换
                 .cast(BearerTokenAuthenticationToken.class)
                 //遍历获取流对象
