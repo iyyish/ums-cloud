@@ -29,7 +29,7 @@ public class JwtReactiveAuthenticationManager implements ReactiveAuthenticationM
      * filter:过滤元素
      * cast:转换成指定类型
      * map:遍历元素,返回流对象
-     * @param auth the {@link Authentication} to test
+     * @param a the {@link Authentication} to test
      * @return
      */
     @Override

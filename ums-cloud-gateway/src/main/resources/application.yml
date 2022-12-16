@@ -1,0 +1,19 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: ums-cloud-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: ums-cloud-auth
+          uri: lb://ums-cloud-auth
+          predicates:
+            - Path=/oauth/**

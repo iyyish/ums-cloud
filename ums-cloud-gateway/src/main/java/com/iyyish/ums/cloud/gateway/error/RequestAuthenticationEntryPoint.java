@@ -25,7 +25,7 @@ import java.nio.charset.StandardCharsets;
 public class RequestAuthenticationEntryPoint implements ServerAuthenticationEntryPoint {
     @Override
     public Mono<Void> commence(ServerWebExchange serverWebExchange, AuthenticationException e) {
-        log.error("认证未通过, {}", e.getMessage(), e);
+        log.error("认证未通过, {}", e.getMessage(),e);
         ServerHttpResponse response = serverWebExchange.getResponse();
         response.getHeaders().add("content-type", "application/json;charset=utf-8");
         response.setStatusCode(HttpStatus.OK);

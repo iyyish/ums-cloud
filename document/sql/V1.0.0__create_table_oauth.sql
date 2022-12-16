@@ -33,6 +33,6 @@ insert into oauth_client_details(client_id, resource_ids, client_secret, scope, 
                                  web_server_redirect_uri, authorities, access_token_validity, refresh_token_validity,
                                  additional_information, autoapprove)
 -- client_secret:abc1234!
-values ('iyyish', 'oauth-resource', '$2a$10$r3lvfLdb/ash3LUFI5lYd.5zyKNRrF9ZCDTlp9PAFlIrjCjlqB632', 'all',
-        'authorization_code,password,refresh_code',
+values ('iyyish', 'ums-cloud', '$2a$10$r3lvfLdb/ash3LUFI5lYd.5zyKNRrF9ZCDTlp9PAFlIrjCjlqB632', 'all',
+        'authorization_code,password,refresh_token',
         'http://www.baidu.com', null, null, null, null, 'true');

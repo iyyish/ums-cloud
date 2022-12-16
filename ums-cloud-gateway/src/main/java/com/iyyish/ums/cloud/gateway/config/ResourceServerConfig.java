@@ -2,6 +2,8 @@ package com.iyyish.ums.cloud.gateway.config;
 
 import com.iyyish.ums.cloud.gateway.error.RequestAccessDeniedHandler;
 import com.iyyish.ums.cloud.gateway.error.RequestAuthenticationEntryPoint;
+import com.iyyish.ums.cloud.gateway.manager.JwtReactiveAuthenticationManager;
+import com.iyyish.ums.cloud.gateway.manager.JwtReactiveAuthorizationManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,13 +25,14 @@ import org.springframework.security.web.server.authorization.AuthorizationContex
 @EnableWebFluxSecurity
 public class ResourceServerConfig {
     @Autowired
-    private ReactiveAuthenticationManager reactiveAuthenticationManager;
+    private JwtReactiveAuthenticationManager renzheng;
     @Autowired
-    private ReactiveAuthorizationManager<AuthorizationContext> reactiveAuthorizationManager;
+    private JwtReactiveAuthorizationManager shouquan;
     @Autowired
     private RequestAuthenticationEntryPoint authenticationEntryPoint;
     @Autowired
     private RequestAccessDeniedHandler accessDeniedHandler;
+
     /**
      * authorization:授权
      * authentication:认证
@@ -38,24 +41,29 @@ public class ResourceServerConfig {
      */
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
-        AuthenticationWebFilter webFilter = new AuthenticationWebFilter(reactiveAuthenticationManager);
-        webFilter.setServerAuthenticationConverter(new ServerBearerTokenAuthenticationConverter());//Bearer Token解析
+        //AuthenticationWebFilter webFilter = new AuthenticationWebFilter(reactiveAuthenticationManager);
+        //webFilter.setServerAuthenticationConverter(new ServerBearerTokenAuthenticationConverter());//Bearer Token解析
         http
-                .authorizeExchange()
-                // 所有请求都走自定义鉴权管理器
-                .anyExchange().access(reactiveAuthorizationManager)
+                .oauth2ResourceServer()
+                .bearerTokenConverter(new ServerBearerTokenAuthenticationConverter())
+                .jwt().authenticationManager(renzheng)
                 .and()
-                // 注册自定义认证处理器
-                .addFilterAt(webFilter, SecurityWebFiltersOrder.AUTHENTICATION)
+                .authenticationEntryPoint(authenticationEntryPoint);
+        http
+                .csrf().disable()
+                .httpBasic().disable()
+                .authorizeExchange()
+                .pathMatchers("/oauth/**").permitAll()
+                // 所有请求都走自定义鉴权管理器
+                .anyExchange().access(shouquan)
+                .and()
                 // 配置自定义异常处理类
                 .exceptionHandling()
                 // 认证失败
                 .authenticationEntryPoint(authenticationEntryPoint)
                 // 鉴权失败
-                .accessDeniedHandler(accessDeniedHandler)
-                .and()
-                .csrf().disable()
-                .httpBasic().disable();
+                .accessDeniedHandler(accessDeniedHandler);
+        // 注册自定义认证处理器 .addFilterAt(webFilter, SecurityWebFiltersOrder.AUTHENTICATION);
         return http.build();
     }
 }

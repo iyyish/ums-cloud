@@ -7,4 +7,7 @@ package com.iyyish.ums.cloud.common.core.constant;
 public interface Constants {
     String JWT_SIGN_KEY = "ums-cloud";
     String JWT_USER_ID = "user_id";
+
+    String AUTH_METHOD_SUFFIX = ":";
+    String AUTH_ROOT_ROLE_CODE = "root";
 }

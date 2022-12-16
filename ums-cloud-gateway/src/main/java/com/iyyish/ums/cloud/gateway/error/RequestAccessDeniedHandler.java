@@ -25,7 +25,7 @@ import java.nio.charset.StandardCharsets;
 public class RequestAccessDeniedHandler implements ServerAccessDeniedHandler {
     @Override
     public Mono<Void> handle(ServerWebExchange serverWebExchange, AccessDeniedException e) {
-        log.error("权限不足, {}", e.getMessage(), e);
+        log.error("权限不足, {}", e.getMessage(),e);
         ServerHttpResponse response = serverWebExchange.getResponse();
         response.getHeaders().add("content-type", "application/json;charset=utf-8");
         response.setStatusCode(HttpStatus.OK);
