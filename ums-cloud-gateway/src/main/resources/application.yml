@@ -13,10 +13,16 @@ spring:
           enabled: true
           lower-case-service-id: true
       routes:
+        #认证中心路由
         - id: ums-cloud-auth
           uri: lb://ums-cloud-auth
           predicates:
             - Path=/oauth/**
+        #用户服务
+        - id: ums-cloud-user
+          uri: lb://ums-cloud-user
+          predicates:
+            - Path=/user/**
   redis:
     host: 127.0.0.1
     port: 6379

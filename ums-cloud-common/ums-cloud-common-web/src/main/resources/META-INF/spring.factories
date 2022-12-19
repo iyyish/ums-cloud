@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.iyyish.ums.cloud.common.web.filter.AuthenticationFilter,\
+  com.iyyish.ums.cloud.common.web.exception.GlobalExceptionHandler

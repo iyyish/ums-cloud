@@ -3,23 +3,29 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>ums-cloud</artifactId>
+        <artifactId>ums-cloud-common</artifactId>
         <groupId>com.iyyish</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>ums-cloud-common</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>ums-cloud-common-web</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
-    <modules>
-        <module>ums-cloud-common-core</module>
-        <module>ums-cloud-common-web</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!--region 引入项目自定义模块-->
+        <dependency>
+            <groupId>com.iyyish</groupId>
+            <artifactId>ums-cloud-common-core</artifactId>
+        </dependency>
+        <!--endregion-->
+    </dependencies>
 </project>

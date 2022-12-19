@@ -9,15 +9,15 @@ public interface Constants {
     String JWT_SIGN_KEY = "ums-cloud";
     String JWT_USER_ID = "user_id";
     String JWT_USER_NAME = "user_name";
-    String JWT_TOKEN_NAME = "jwt-token";
+    String JWT_REDIRECT_ATTRIBUTE = "jwt_redirect_attribute";
     String JWT_PRINCIPAL_NAME = "principal";
     String JWT_AUTHORITIES_NAME = "authorities";
     String JWT_JTI = "jti";
     String JWT_EXPR = "expr";
+    String JWT_JTI_BLACK_PREFIX = "oauth2:black:";
     //endregion
 
-    String JWT_JTI_BLACK_PREFIX = "oauth2:black:";
-    
+    String LOGIN_USER_ATTRIBUTE = "login_user_attribute";
     String METHOD_SUFFIX = ":";
     String ROOT_ROLE_CODE = "ROLE_ROOT";
     String ROLE_PREFIX = "ROLE_";

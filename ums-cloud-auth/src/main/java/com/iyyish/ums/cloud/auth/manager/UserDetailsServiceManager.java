@@ -50,7 +50,7 @@ public class UserDetailsServiceManager implements UserDetailsService {
         lqwUserRole.eq(SysUserRole::getUserId, sysUser.getId());
         List<SysUserRole> userRoleList = userRoleMapper.selectList(lqwUserRole);
         List<Long> roleIdList = userRoleList.stream().map(SysUserRole::getRoleId).collect(Collectors.toList());
-        List<SysRole> roleList = roleMapper.selectBatchIds(roleIdList);
+        List<SysRole> roleList = roleIdList.size() == 0 ? new ArrayList<>() : roleMapper.selectBatchIds(roleIdList);
         //3.拼接角色代码,与redis缓存中的格式一致
         //缓存角色信息格式:ROLE_XXX
         List<String> authorities = roleList.stream().map(sysRole -> Constants.ROLE_PREFIX + sysRole.getCode()).collect(Collectors.toList());

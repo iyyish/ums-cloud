@@ -12,6 +12,7 @@ import com.iyyish.ums.cloud.auth.service.ISysRolePermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,7 +40,7 @@ public class SysRolePermissionServiceImpl implements ISysRolePermissionService {
             qwRolePermission.eq(SysRolePermission::getPermissionId, permission.getId());
             List<SysRolePermission> rolePermissionList = rolePermissionMapper.selectList(qwRolePermission);
             List<Long> roleIdList = rolePermissionList.stream().map(SysRolePermission::getRoleId).collect(Collectors.toList());
-            List<SysRole> roles = roleMapper.selectBatchIds(roleIdList);
+            List<SysRole> roles = roleIdList.size() == 0 ? new ArrayList<>() : roleMapper.selectBatchIds(roleIdList);
             //封装结果
             return SysRolePermissionVo.builder()
                     .permissionId(permission.getId())

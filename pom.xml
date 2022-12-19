@@ -80,6 +80,11 @@
                 <artifactId>ums-cloud-common-core</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
+            <dependency>
+                <groupId>com.iyyish</groupId>
+                <artifactId>ums-cloud-common-web</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
             <!--endregion-->
         </dependencies>
     </dependencyManagement>
@@ -121,5 +126,6 @@
         <module>ums-cloud-auth</module>
         <module>ums-cloud-common</module>
         <module>ums-cloud-gateway</module>
+        <module>ums-cloud-user</module>
     </modules>
 </project>

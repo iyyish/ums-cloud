@@ -83,7 +83,7 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
             //将解析后的token加密放入请求头中，方便下游微服务解析获取用户信息
             String base64 = Base64.encodeBase64String(jsonObject.toJSONString().getBytes(StandardCharsets.UTF_8));
             //放入请求头中,后面的微服务中可以取到
-            ServerHttpRequest tokenRequest = exchange.getRequest().mutate().header(Constants.JWT_TOKEN_NAME, base64).build();
+            ServerHttpRequest tokenRequest = exchange.getRequest().mutate().header(Constants.JWT_REDIRECT_ATTRIBUTE, base64).build();
             ServerWebExchange build = exchange.mutate().request(tokenRequest).build();
             return chain.filter(build);
         } catch (InvalidTokenException e) {

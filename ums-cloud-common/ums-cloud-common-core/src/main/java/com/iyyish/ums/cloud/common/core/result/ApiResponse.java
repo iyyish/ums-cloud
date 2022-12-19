@@ -43,4 +43,8 @@ public class ApiResponse<T> implements Serializable {
     public static <T> ApiResponse<T> failed() {
         return build(ResponseCode.HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    public static <T> ApiResponse<T> failed(String msg) {
+        return build(null, msg, null);
+    }
 }

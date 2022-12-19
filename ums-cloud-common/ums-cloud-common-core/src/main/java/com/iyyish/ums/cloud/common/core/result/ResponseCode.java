@@ -12,7 +12,7 @@ public interface ResponseCode {
     /** http请求响应码 */
     enum HttpStatus implements ResponseCode {
         OK("200", "请求成功"),
-        INTERNAL_SERVER_ERROR("500", "服务器响应失败");
+        INTERNAL_SERVER_ERROR("500", "服务器异常");
 
         private final String code;
         private final String msg;
