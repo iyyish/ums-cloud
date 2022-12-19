@@ -1,5 +1,7 @@
-package com.iyyish.ums.cloud.gateway.config;
+package com.iyyish.ums.cloud.gateway.config.security;
 
+import cn.hutool.core.util.ArrayUtil;
+import com.iyyish.ums.cloud.gateway.config.WhiteListConfig;
 import com.iyyish.ums.cloud.gateway.error.RequestAccessDeniedHandler;
 import com.iyyish.ums.cloud.gateway.error.RequestAuthenticationEntryPoint;
 import com.iyyish.ums.cloud.gateway.manager.JwtReactiveAuthenticationManager;
@@ -45,7 +47,7 @@ public class ResourceServerConfig {
         http
                 .authorizeExchange()
                 //配置认证白名单
-                .pathMatchers(whiteList.getArrayUrls()).permitAll()
+                .pathMatchers(ArrayUtil.toArray(whiteList.getUrls(), String.class)).permitAll()
                 //自定义鉴权管理器
                 .anyExchange().access(authorizationManager)
                 .and()

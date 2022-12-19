@@ -1,6 +1,9 @@
 package com.iyyish.ums.cloud.gateway.manager;
 
 import com.iyyish.ums.cloud.common.core.constant.Constants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.ReactiveAuthorizationManager;
 import org.springframework.security.core.Authentication;
@@ -12,6 +15,7 @@ import reactor.core.publisher.Mono;
 
 import java.net.URI;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @desc: 自定义授权管理器
@@ -22,19 +26,23 @@ import java.util.*;
  */
 @Component
 public class JwtReactiveAuthorizationManager implements ReactiveAuthorizationManager<AuthorizationContext> {
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
+
     @Override
     public Mono<AuthorizationDecision> check(Mono<Authentication> authentication, AuthorizationContext context) {
         //1.获取请求URL信息
         URI uri = context.getExchange().getRequest().getURI();
         String method = context.getExchange().getRequest().getMethodValue();
         //POST:/user/query or *:/user/query
-        String restUrl = method + Constants.AUTH_METHOD_SUFFIX + uri.getPath();
-        AntPathMatcher antPathMatcher = new AntPathMatcher();
-        Map<String, List<String>> mapping = new HashMap<>();
-        mapping.put("*:/oauth/token", Collections.singletonList("user"));
+        String restUrl = method + Constants.METHOD_SUFFIX + uri.getPath();
+        //2.从redis读取url-roles对应关系
+        HashOperations<String, String, List<String>> operations = redisTemplate.opsForHash();
+        Map<String, List<String>> urlRoles = operations.entries(Constants.OAUTH_URLS);
+        //3.筛选有权访问此次请求URL的所有角色
         List<String> canAccessRoles = new ArrayList<>();
-        //2.筛选有权访问此次请求URL的所有角色
-        mapping.forEach((url, roles) -> {
+        final AntPathMatcher antPathMatcher = new AntPathMatcher();
+        urlRoles.forEach((url, roles) -> {
             if (antPathMatcher.match(url, restUrl)) {
                 canAccessRoles.addAll(roles);
             }
@@ -45,7 +53,7 @@ public class JwtReactiveAuthorizationManager implements ReactiveAuthorizationMan
                 //获取认证后的全部权限
                 .flatMapIterable(Authentication::getAuthorities).map(GrantedAuthority::getAuthority).any(authority -> {
                     //管理员有所有权限
-                    if (Constants.AUTH_ROOT_ROLE_CODE.equals(authority)) {
+                    if (Constants.ROOT_ROLE_CODE.equals(authority)) {
                         return true;
                     }
                     return canAccessRoles.size() > 0 && canAccessRoles.contains(authority);

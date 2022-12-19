@@ -1,4 +1,4 @@
-package com.iyyish.ums.cloud.gateway.config;
+package com.iyyish.ums.cloud.auth.config.security;
 
 import com.iyyish.ums.cloud.common.core.constant.Constants;
 import com.iyyish.ums.cloud.common.core.domain.SecurityUser;
@@ -47,7 +47,7 @@ public class AccessTokenConfig {
             Object principal = authentication.getPrincipal();
             if (principal instanceof SecurityUser) {
                 SecurityUser user = (SecurityUser) principal;
-                //将额外的用户信息放入AccessToken
+                // 将额外的用户信息放入AccessToken
                 Map<String, Object> additionalInformation = new LinkedHashMap<>();
                 additionalInformation.put(Constants.JWT_USER_ID, user.getId());
                 ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInformation);

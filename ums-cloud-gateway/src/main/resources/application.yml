@@ -25,4 +25,5 @@ oauth2:
   whitelist:
     urls:
       - /oauth/token
+      - /oauth/check_token
       - /oauth/logout

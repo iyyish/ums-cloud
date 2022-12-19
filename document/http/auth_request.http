@@ -1,0 +1,8 @@
+### /oauth/token
+POST http://localhost:8080/oauth/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=password&client_id=iyyish&client_secret=abc1234!&username=admin&password=admin
+
+### /oauth/check_token
+POST http://localhost:8080/oauth/check_token?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsib2F1dGgtcmVzb3VyY2UiXSwidXNlcl9pZCI6MSwidXNlcl9uYW1lIjoiYWRtaW4iLCJzY29wZSI6WyJhbGwiXSwiZXhwIjoxNjcxNDQxODQwLCJhdXRob3JpdGllcyI6WyJST0xFX0FETUlOIl0sImp0aSI6ImViYjdiNDE5LTFhMDItNDI0ZS04NjIyLTBjY2JhMzJjMGMzOCIsImNsaWVudF9pZCI6Iml5eWlzaCJ9.0R2HRARmdlWxayBfu_KA_BJnr6LZWoBNKeZKX1b7bDc

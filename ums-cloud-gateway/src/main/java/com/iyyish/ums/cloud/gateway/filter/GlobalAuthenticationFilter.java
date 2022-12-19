@@ -41,13 +41,13 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
     @Autowired
     private TokenStore tokenStore;
     @Autowired
-    private RedisTemplate redisTemplate;
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         String requestUrl = exchange.getRequest().getPath().value();
         //1、白名单放行，比如授权服务、静态资源.....
-        if (checkUrls(whiteList.getUrls(), requestUrl)) {
+        if (checkUrls(whiteList, requestUrl)) {
             return chain.filter(exchange);
         }
 
@@ -73,7 +73,7 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
             String user_name = additionalInformation.get(Constants.JWT_USER_NAME).toString();
             String userId = additionalInformation.get(Constants.JWT_USER_ID).toString();
             //获取用户权限
-            List<String> authorities = (List<String>) additionalInformation.get("authorities");
+            List<String> authorities = (List<String>) additionalInformation.get(Constants.JWT_AUTHORITIES_NAME);
             JSONObject jsonObject = new JSONObject();
             jsonObject.put(Constants.JWT_PRINCIPAL_NAME, user_name);
             jsonObject.put(Constants.JWT_USER_ID, userId);
@@ -82,7 +82,7 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
             jsonObject.put(Constants.JWT_EXPR, oAuth2AccessToken.getExpiresIn());
             //将解析后的token加密放入请求头中，方便下游微服务解析获取用户信息
             String base64 = Base64.encodeBase64String(jsonObject.toJSONString().getBytes(StandardCharsets.UTF_8));
-            //放入请求头中
+            //放入请求头中,后面的微服务中可以取到
             ServerHttpRequest tokenRequest = exchange.getRequest().mutate().header(Constants.JWT_TOKEN_NAME, base64).build();
             ServerWebExchange build = exchange.mutate().request(tokenRequest).build();
             return chain.filter(build);
@@ -109,7 +109,8 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
         return token;
     }
 
-    private boolean checkUrls(List<String> urls, String path) {
+    private boolean checkUrls(WhiteListConfig whiteList, String path) {
+        List<String> urls = whiteList.getUrls();
         AntPathMatcher pathMatcher = new AntPathMatcher();
         for (String url : urls) {
             if (pathMatcher.match(url, path))

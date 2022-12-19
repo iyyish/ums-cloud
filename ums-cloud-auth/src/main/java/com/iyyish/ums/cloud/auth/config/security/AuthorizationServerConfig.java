@@ -1,4 +1,4 @@
-package com.iyyish.ums.cloud.auth.config;
+package com.iyyish.ums.cloud.auth.config.security;
 
 import com.iyyish.ums.cloud.auth.error.AuthClientCredentialsTokenEndpointFilter;
 import com.iyyish.ums.cloud.auth.error.AuthWebResponseExceptionTranslator;

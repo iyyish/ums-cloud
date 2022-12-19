@@ -1,5 +1,6 @@
-package com.iyyish.ums.cloud.auth.service;
+package com.iyyish.ums.cloud.auth.manager;
 
+import cn.hutool.core.util.ArrayUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.iyyish.ums.cloud.auth.mapper.SysRoleMapper;
 import com.iyyish.ums.cloud.auth.mapper.SysUserMapper;
@@ -7,6 +8,7 @@ import com.iyyish.ums.cloud.auth.mapper.SysUserRoleMapper;
 import com.iyyish.ums.cloud.auth.model.entity.SysRole;
 import com.iyyish.ums.cloud.auth.model.entity.SysUser;
 import com.iyyish.ums.cloud.auth.model.entity.SysUserRole;
+import com.iyyish.ums.cloud.common.core.constant.Constants;
 import com.iyyish.ums.cloud.common.core.domain.SecurityUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -26,7 +28,7 @@ import java.util.stream.Collectors;
  * @date: 2022年12月12日
  */
 @Component
-public class AuthUserDetailsService implements UserDetailsService {
+public class UserDetailsServiceManager implements UserDetailsService {
     @Autowired
     private SysUserMapper userMapper;
     @Autowired
@@ -48,21 +50,21 @@ public class AuthUserDetailsService implements UserDetailsService {
         lqwUserRole.eq(SysUserRole::getUserId, sysUser.getId());
         List<SysUserRole> userRoleList = userRoleMapper.selectList(lqwUserRole);
         List<Long> roleIdList = userRoleList.stream().map(SysUserRole::getRoleId).collect(Collectors.toList());
-
-        LambdaQueryWrapper<SysRole> lqwRole = new LambdaQueryWrapper<>();
-        lqwRole.in(SysRole::getId, roleIdList);
-        List<SysRole> roleList = roleIdList.size() == 0 ? new ArrayList<>() : roleMapper.selectList(lqwRole);
+        List<SysRole> roleList = roleMapper.selectBatchIds(roleIdList);
+        //3.拼接角色代码,与redis缓存中的格式一致
+        //缓存角色信息格式:ROLE_XXX
+        List<String> authorities = roleList.stream().map(sysRole -> Constants.ROLE_PREFIX + sysRole.getCode()).collect(Collectors.toList());
 
         //3.封装UserDetails对象
         return SecurityUser.builder()
                 .id(sysUser.getId())
                 .username(sysUser.getUsername())
                 .password(sysUser.getPassword())
-                .authorities(AuthorityUtils.createAuthorityList(roleList.stream().map(SysRole::getCode).toArray(String[]::new)))
+                .authorities(AuthorityUtils.createAuthorityList(ArrayUtil.toArray(authorities, String.class)))
                 .build();
     }
 
     public static void main(String[] args) {
-        System.out.println(new BCryptPasswordEncoder().encode("admin"));
+        System.out.println(new BCryptPasswordEncoder().encode("user"));
     }
 }

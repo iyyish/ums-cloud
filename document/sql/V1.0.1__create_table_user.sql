@@ -12,9 +12,6 @@ CREATE TABLE `ums_user`
   CHARACTER SET = utf8
   COLLATE = utf8_general_ci
   ROW_FORMAT = Dynamic;
-insert into ums_user(id, username, password, status, create_time, update_time)
-values (1, 'admin', '$2a$10$joMZAI5/Y14uBML8hZ8Kz.XnJUubg/XbMxPO9nB/Tty/l7a61O6l2', '1', now(), now());
-
 
 -- 角色表:ums_role
 drop table if exists `ums_role`;

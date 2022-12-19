@@ -1,4 +1,4 @@
-package com.iyyish.ums.cloud.auth.config;
+package com.iyyish.ums.cloud.auth.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
