@@ -12,6 +12,7 @@ public interface ResponseCode {
     /** http请求响应码 */
     enum HttpStatus implements ResponseCode {
         OK("200", "请求成功"),
+        METHOD_NOT_ALLOWED("405", "请求方式不允许"),
         INTERNAL_SERVER_ERROR("500", "服务器异常");
 
         private final String code;
